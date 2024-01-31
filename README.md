@@ -1,5 +1,14 @@
 # XAI DeepFake detection
 
+## Environment
+```
+conda env create --file env.yml 
+conda activate dfxai
+```
+
+## Checkpoints
+Place in `checkpoints/` directory.
+
 ## About the models 
 | Model | ff_attribution | swinv2_faceswap |
 | --- | --- | --- |

@@ -14,20 +14,7 @@ from torchmetrics import (
     Specificity,
     ConfusionMatrix,
 )
-
 import models.utils as utils
-from art.attacks.evasion import (
-    BoundaryAttack,
-    HopSkipJump,
-    ProjectedGradientDescentPyTorch,
-)
-
-ADV_ATTACKS = {
-    "hsj": HopSkipJump,
-    "ba": BoundaryAttack,
-    "pgd": ProjectedGradientDescentPyTorch,
-}
-
 
 class BaseModel(LightningModule):
     def __init__(
@@ -62,10 +49,6 @@ class BaseModel(LightningModule):
         ], "task must be binary or multiclass"
 
         self.adv_attacks = adv_attacks or []
-        assert all(
-            [attack in ADV_ATTACKS.keys() for attack in self.adv_attacks]
-        ), f"adv_attacks must be one of {ADV_ATTACKS.keys()}"
-
         self.test_after_fit = test_after_fit
         self.aggregate_predict_results = aggregate_predict_results
         self.use_pos_weight = use_pos_weight
