@@ -3,7 +3,6 @@ from typing import Optional
 from models.base_model import BaseModel
 import torch
 from models import utils
-from aggregation import frame_aggregation
 
 
 class BaseFrameModel(BaseModel):
@@ -156,12 +155,6 @@ class BaseFrameModel(BaseModel):
         self.cm_test.update(output["preds"], output["y"])
 
     def on_test_epoch_end(self):
-        if self.aggregate_predict_results:
-            self.test_step_outputs = {
-                k: frame_aggregation(v, name=self.trainer.datamodule.test_data[k])
-                for k, v in self.test_step_outputs.items()
-            }
-
         for i, loader_output in self.test_step_outputs.items():  # type: ignore
             test_metrics = self.test_metrics.clone(
                 prefix=f"test_{self.trainer.datamodule.test_data[i]}/"  # type: ignore
