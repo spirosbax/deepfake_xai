@@ -127,7 +127,7 @@ def cli() -> None:
     "-ms",
     "--map_size",
     type=int,
-    default=2 * 1024 * 1024 * 1024 * 1024,  # 2TB
+    default=20 * 1024 * 1024 * 1024,  # 20GB
     help="Map size for the database, in bytes.",
 )
 @click.option(

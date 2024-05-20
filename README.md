@@ -43,3 +43,22 @@ Trained for binary classification (0 = real, 1 = fake) on faceswap data from DFD
 | Balanced Accuracy | 0.9890 | 0.9921 | 0.8872 | 0.7538 | 0.7751 | 0.7355 | 0.8554 |
 | FalsePositiveRate | 0.0121 | 0.0128 | 0.2083 | 0.0710 | 0.3065 | 0.3697 | 0.1634 |
 | FalseNegativeRate | 0.0099 | 0.0030 | 0.0173 | 0.4214 | 0.1432 | 0.1593 | 0.1257 |
+
+
+## Data Preprocessing
+### FF++
+1. Download dataset from [FaceForensics++](https://github.com/ondyari/FaceForensics/blob/master/dataset/README.md)
+2. Run the following script to preprocess the data:
+```bash
+conda activate dfxai
+python3 src/data/preprocess_ff.py prepro -r RAW_DATA_PATH -tr PREPROCESSED_DATA_PATH -d cuda:0 -mdcsv RAW_DATA_PATH/dataset_info.csv -mdcsv faceforensics_frames.csv
+```
+Where `RAW_DATA_PATH` is the path to the downloaded FF++ dataset and `PREPROCESSED_DATA_PATH` is the path to save the preprocessed data. The script will create a new file `faceforensics_frames.csv` containing the paths to the preprocessed frames.
+
+## Creating Database
+1. Create a new LMDB database by running the following script:
+```bash
+conda activate dfxai
+python3 src/data/lmdb_storage.py add-csv -csv ./faceforensics_frames.csv -h -pc relative_path -d ./ff.lmdb -ms 21474836480 -v -b PREPROCESSED_DATA_PATH
+```
+Where `faceforensics_frames.csv` is the file created in the previous step and `PREPROCESSED_DATA_PATH` is the path to the preprocessed data. The script will create a new LMDB database `ff.lmdb` containing the preprocessed frames. The `-ms` flag specifies the maximum size of the database in bytes, default is 20GB.
