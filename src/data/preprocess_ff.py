@@ -38,11 +38,11 @@ def cli():
     "-m",
     type=str,
     multiple=True,
-    default=["NeuralTextures", "Face2Face", "Deepfakes", "FaceSwap"],
+    default=["NeuralTextures", "Face2Face", "Deepfakes", "FaceSwap", "FaceShifter"],
     help="Methods",
 )
 @click.option("--compression", "-c", type=str, default="c23", help="Compression")
-@click.option("--device", "-d", type=str, required=True, help="Device")
+@click.option("--device", "-d", type=str, required=True, help="Device", default="cuda:0")
 @click.option("--batch_size", "-bs", type=int, default=64, help="Batch size")
 @click.option("--threshold", "-t", type=float, default=0.95, help="Threshold")
 @click.option("--increment", "-inc", type=float, default=0.01, help="Increment")
@@ -56,7 +56,7 @@ def cli():
     help="Log directory",
     required=False,
 )
-@click.option("--num_videos", "-nv", type=int, default=np.inf, help="Number of videos")
+@click.option("--num_videos", "-nv", type=int, default=int(1e9), help="Number of videos")
 @click.option("--ext", "-e", type=str, default=".png", help="Extension")
 @click.option("--quality", "-q", type=int, default=75, help="Quality")
 @click.option(
@@ -191,10 +191,6 @@ def prepro(
     if metadata_csv:
         handle_metadata(metadata_csv, target_root)
 
-
-@click.command()
-@click.option("--metadata_csv", "-mdcsv", type=click.Path(exists=True))
-@click.option("--target_root", "-tr", type=str)
 def handle_metadata(metadata_csv, target_root):
     root_path = Path(target_root)
     metadata = pd.read_csv(metadata_csv)
@@ -234,7 +230,6 @@ def handle_metadata(metadata_csv, target_root):
 
 
 cli.add_command(prepro)
-cli.add_command(handle_metadata)
 
 if __name__ == "__main__":
     cli()

@@ -51,7 +51,7 @@ Trained for binary classification (0 = real, 1 = fake) on faceswap data from DFD
 2. Run the following script to preprocess the data:
 ```bash
 conda activate dfxai
-python3 src/data/preprocess_ff.py prepro -r RAW_DATA_PATH -tr PREPROCESSED_DATA_PATH -d cuda:0 -mdcsv RAW_DATA_PATH/dataset_info.csv -mdcsv faceforensics_frames.csv
+python3 src/data/preprocess_ff.py prepro -r RAW_DATA_PATH -tr PREPROCESSED_DATA_PATH -d cuda:0 -mdcsv RAW_DATA_PATH/dataset_info.csv
 ```
 Where `RAW_DATA_PATH` is the path to the downloaded FF++ dataset and `PREPROCESSED_DATA_PATH` is the path to save the preprocessed data. The script will create a new file `faceforensics_frames.csv` containing the paths to the preprocessed frames.
 
